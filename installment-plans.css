@@ -1,0 +1,283 @@
+/* Installment Plans Styles */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary: linear-gradient(135deg, #e63946 0%, #d62828 100%);
+  --primary-color: #e63946;
+  --primary-light: #ffebee;
+  --primary-dark: #c1121f;
+  --secondary-color: #6610F2;
+  --secondary-light: #6710f299;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --info: #3b82f6;
+  --background: #f9fafb;
+  --card-bg: #ffffff;
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  --text-muted: #9ca3af;
+  --border: #e5e7eb;
+  --border-light-table: #ece7e7;
+  --border-light: #f3f4f6;
+  --hover-bg: #f9fafb;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --radius: 12px;
+  --radius-sm: 8px;
+  --radius-xs: 4px;
+  --transition: all 0.2s ease;
+  --table-header-bg: #f8f9fa;
+  --input-bg: #ffffff;
+  --tab-bg: #ffffff;
+  --zero-stock-bg: #fee2e2;
+  --zero-stock-hover: #fecaca;
+}
+
+/* Dark Mode Variables */
+[data-theme="dark"] {
+  --primary-color: #ff6b7a;
+  --primary-light: #2d1619;
+  --primary-dark: #ff8a96;
+  --secondary-color: #8b5cf6;
+  --secondary-light: #6d28d999;
+  --success: #34d399;
+  --warning: #fbbf24;
+  --danger: #f87171;
+  --info: #60a5fa;
+  --background: #0f1419;
+  --card-bg: #1a1f2e;
+  --text-primary: #e5e7eb;
+  --text-secondary: #9ca3af;
+  --text-muted: #6b7280;
+  --border: #2d3748;
+  --border-light-table: #2d3748;
+  --border-light: #1f2937;
+  --hover-bg: #252d3d;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.4);
+  --table-header-bg: #161b26;
+  --input-bg: #161b26;
+  --tab-bg: #161b26;
+  --zero-stock-bg: #4a1919;
+  --zero-stock-hover: #5c2020;
+}
+
+/* Instant theme switching */
+:root {
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+body {
+  font-family: "Manrope", sans-serif;
+  background: var(--background);
+  min-height: 100vh;
+  color: var(--text-primary);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Header Section */
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.header-logo {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+}
+
+.header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #ff4d4d 0%, #e63946 50%, #b5170e 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0;
+  letter-spacing: -0.025em;
+}
+
+/* Dark Mode Toggle Button */
+.theme-toggle {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--card-bg);
+  border: 2px solid var(--border);
+  border-radius: 50px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: var(--shadow-sm);
+  user-select: none;
+}
+
+.theme-toggle:hover {
+  border-color: var(--primary-color);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.theme-toggle svg {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.3s ease;
+}
+
+.theme-toggle:hover svg {
+  transform: rotate(20deg);
+}
+
+.theme-toggle span {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+@media (max-width: 768px) {
+  .theme-toggle span {
+    display: none;
+  }
+}
+
+/* Installment Plans Styles */
+.installment-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.installment-table th {
+  background: var(--table-header-bg);
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border);
+}
+
+.installment-table td {
+  padding: 0.875rem 1rem;
+  border-bottom: 1px solid var(--border-light-table);
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  text-align: left;
+}
+
+.installment-table tr:last-child td {
+  border-bottom: none;
+}
+
+.installment-table tr:hover {
+  background: var(--hover-bg);
+}
+
+.installment-table tr.selected-plan {
+  background: var(--primary-light);
+}
+
+.installment-total-highlight {
+  color: var(--info);
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.installment-channel {
+  color: var(--info);
+  font-size: 0.85rem;
+}
+
+.installment-type-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1.25rem;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  background: var(--card-bg);
+  transition: var(--transition);
+  font-weight: 500;
+  user-select: none;
+}
+
+.installment-type-btn.active {
+  border-color: var(--primary-color);
+  background: var(--primary-light);
+}
+
+.installment-type-btn:hover {
+  border-color: var(--primary-color);
+}
+
+.installment-type-btn .radio-indicator {
+  margin-left: auto;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.installment-type-btn.active .radio-indicator {
+  border-color: var(--primary-color);
+}
+
+.installment-type-btn .radio-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: transparent;
+}
+
+.installment-type-btn.active .radio-dot {
+  background: var(--primary-color);
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

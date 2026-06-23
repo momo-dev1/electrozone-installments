@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="../favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <title>Installment Plans - ElectroZone</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: linear-gradient(135deg, #e63946 0%, #d62828 100%);
+      --primary-color: #e63946;
+      --primary-light: #ffebee;
+      --primary-dark: #c1121f;
+      --secondary-color: #6610F2;
+      --secondary-light: #6710f299;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --info: #3b82f6;
+      --background: #f9fafb;
+      --card-bg: #ffffff;
+      --text-primary: #111827;
+      --text-secondary: #6b7280;
+      --text-muted: #9ca3af;
+      --border: #e5e7eb;
+      --border-light-table: #ece7e7;
+      --border-light: #f3f4f6;
+      --hover-bg: #f9fafb;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --radius: 12px;
+      --radius-sm: 8px;
+      --radius-xs: 4px;
+      --transition: all 0.2s ease;
+      --table-header-bg: #f8f9fa;
+      --input-bg: #ffffff;
+      --tab-bg: #ffffff;
+      --zero-stock-bg: #fee2e2;
+      --zero-stock-hover: #fecaca;
+    }
+
+    /* Dark Mode Variables */
+    [data-theme="dark"] {
+      --primary-color: #ff6b7a;
+      --primary-light: #2d1619;
+      --primary-dark: #ff8a96;
+      --secondary-color: #8b5cf6;
+      --secondary-light: #6d28d999;
+      --success: #34d399;
+      --warning: #fbbf24;
+      --danger: #f87171;
+      --info: #60a5fa;
+      --background: #0f1419;
+      --card-bg: #1a1f2e;
+      --text-primary: #e5e7eb;
+      --text-secondary: #9ca3af;
+      --text-muted: #6b7280;
+      --border: #2d3748;
+      --border-light-table: #2d3748;
+      --border-light: #1f2937;
+      --hover-bg: #252d3d;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.4);
+      --table-header-bg: #161b26;
+      --input-bg: #161b26;
+      --tab-bg: #161b26;
+      --zero-stock-bg: #4a1919;
+      --zero-stock-hover: #5c2020;
+    }
+
+    /* Instant theme switching */
+    :root {
+      color-scheme: light;
+    }
+
+    [data-theme="dark"] {
+      color-scheme: dark;
+    }
+
+    body {
+      font-family: "Manrope", sans-serif;
+      background: var(--background);
+      min-height: 100vh;
+      color: var(--text-primary);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    /* Header Section */
+    .header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .header-logo {
+      width: 50px;
+      height: 50px;
+      object-fit: contain;
+    }
+
+    .header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      background: linear-gradient(90deg, #ff4d4d 0%, #e63946 50%, #b5170e 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0;
+      letter-spacing: -0.025em;
+    }
+
+    /* Dark Mode Toggle Button */
+    .theme-toggle {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--card-bg);
+      border: 2px solid var(--border);
+      border-radius: 50px;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: var(--shadow-sm);
+      user-select: none;
+    }
+
+    .theme-toggle:hover {
+      border-color: var(--primary-color);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .theme-toggle svg {
+      width: 20px;
+      height: 20px;
+      transition: transform 0.3s ease;
+    }
+
+    .theme-toggle:hover svg {
+      transform: rotate(20deg);
+    }
+
+    .theme-toggle span {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    @media (max-width: 768px) {
+      .theme-toggle span {
+        display: none;
+      }
+    }
+
+    /* Installment Plans Styles */
+    .installment-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+    }
+
+    .installment-table th {
+      background: var(--table-header-bg);
+      padding: 0.75rem 1rem;
+      text-align: left;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .installment-table td {
+      padding: 0.875rem 1rem;
+      border-bottom: 1px solid var(--border-light-table);
+      color: var(--text-primary);
+      font-size: 0.875rem;
+      text-align: left;
+    }
+
+    .installment-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .installment-table tr:hover {
+      background: var(--hover-bg);
+    }
+
+    .installment-table tr.selected-plan {
+      background: var(--primary-light);
+    }
+
+    .installment-total-highlight {
+      color: var(--info);
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .installment-channel {
+      color: var(--info);
+      font-size: 0.85rem;
+    }
+
+    .installment-type-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.875rem 1.25rem;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      background: var(--card-bg);
+      transition: var(--transition);
+      font-weight: 500;
+      user-select: none;
+    }
+
+    .installment-type-btn.active {
+      border-color: var(--primary-color);
+      background: var(--primary-light);
+    }
+
+    .installment-type-btn:hover {
+      border-color: var(--primary-color);
+    }
+
+    .installment-type-btn .radio-indicator {
+      margin-left: auto;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .installment-type-btn.active .radio-indicator {
+      border-color: var(--primary-color);
+    }
+
+    .installment-type-btn .radio-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: transparent;
+    }
+
+    .installment-type-btn.active .radio-dot {
+      background: var(--primary-color);
+    }
+
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="header-left">
+        <img src="https://i.ibb.co/993p24zw/logo.png" alt="ElectroZone Logo" class="header-logo">
+        <h1>Installment Plans</h1>
+      </div>
+      <!-- Dark Mode Toggle -->
+      <div class="theme-toggle" onclick="toggleTheme()">
+        <svg id="themeIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <span id="themeText">Light</span>
+      </div>
+    </div>
+
+    <!-- Installment Plans Content -->
+    <div style="background: var(--card-bg); border-radius: var(--radius); padding: 2rem; box-shadow: var(--shadow-md);">
+      <div style="max-width: 800px; margin: 0 auto;">
+
+        <!-- Price Input -->
+        <div style="display: flex; justify-content: flex-end; margin-bottom: 0.5rem;">
+          <button onclick="clearInstallmentFields()"
+            style="display:inline-flex;align-items:center;gap:0.375rem;padding:0.3rem 0.75rem;border:1px solid var(--border);border-radius:var(--radius-xs);background:var(--card-bg);color:var(--text-secondary);font-size:0.75rem;font-weight:500;cursor:pointer;transition:var(--transition);"
+            onmouseover="this.style.borderColor='var(--danger)';this.style.color='var(--danger)';"
+            onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-secondary)';">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="3 6 5 6 21 6"></polyline>
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+            </svg>
+            Clear All
+          </button>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+          <div>
+            <label
+              style="display: block; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;">Product
+              Price (EGP)</label>
+            <input type="text" inputmode="numeric" id="installmentPrice" placeholder="Enter product price..." value="1"
+              style="width: 100%; padding: 0.75rem 1rem; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 1rem; background: var(--input-bg); color: var(--text-primary); box-shadow: var(--shadow-sm);"
+              oninput="formatInstallmentInput(this)" />
+          </div>
+          <div>
+            <label style="display: block; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;">Downpayment (EGP)</label>
+            <input type="text" inputmode="numeric" id="installmentDownpayment" placeholder="Enter downpayment..."
+              style="width: 100%; padding: 0.75rem 1rem; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 1rem; background: var(--input-bg); color: var(--text-primary); box-shadow: var(--shadow-sm);"
+              oninput="formatInstallmentInput(this)" />
+          </div>
+        </div>
+
+        <!-- Duration -->
+        <div style="margin-bottom: 1.25rem;">
+          <label style="display: block; font-weight: 600; color: var(--text-primary); margin-bottom: 0.75rem;">Duration</label>
+          <select id="installmentDuration" onchange="onInstallmentDurationChange()"
+            style="width: 100%; padding: 0.75rem 1rem; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 1rem; background: var(--input-bg); color: var(--text-primary);">
+            <option value="">-- All Durations --</option>
+          </select>
+        </div>
+
+        <!-- Carousel -->
+        <div style="margin-bottom: 1.5rem;">
+          <label id="installmentCompanyLabel"
+            style="display: block; font-weight: 600; color: var(--text-primary); margin-bottom: 0.75rem;">Select
+            Bank</label>
+          <div id="installmentCompanyCarousel"
+            style="display:grid;grid-template-columns:repeat(6,1fr);gap:0.75rem;padding:0.5rem 2px;"></div>
+        </div>
+        <div id="installmentDataStatus" style="margin-bottom: 1rem;"></div>
+
+        <!-- Available Plans Table -->
+        <div id="installmentPlansTable" style="margin-bottom: 1.5rem;">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ==================== UTILITY FUNCTIONS ====================
+    function parseCSV(text) {
+      const rows = [];
+      let currentRow = [];
+      let currentCell = "";
+      let inQuotes = false;
+
+      for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+        const nextChar = text[i + 1];
+
+        if (char === '"') {
+          if (inQuotes && nextChar === '"') {
+            currentCell += '"';
+            i++;
+          } else {
+            inQuotes = !inQuotes;
+          }
+        } else if (char === "," && !inQuotes) {
+          currentRow.push(currentCell);
+          currentCell = "";
+        } else if ((char === "\n" || char === "\r") && !inQuotes) {
+          if (char === "\r" && nextChar === "\n") {
+            i++;
+          }
+          currentRow.push(currentCell);
+          if (currentRow.some((cell) => cell.trim() !== "")) {
+            rows.push(currentRow);
+          }
+          currentRow = [];
+          currentCell = "";
+        } else {
+          currentCell += char;
+        }
+      }
+
+      if (currentCell || currentRow.length > 0) {
+        currentRow.push(currentCell);
+        if (currentRow.some((cell) => cell.trim() !== "")) {
+          rows.push(currentRow);
+        }
+      }
+
+      return rows;
+    }
+
+    // ==================== THEME FUNCTIONS ====================
+    function toggleTheme() {
+      const html = document.documentElement;
+      const currentTheme = html.getAttribute("data-theme");
+      const newTheme = currentTheme === "dark" ? "light" : "dark";
+
+      html.setAttribute("data-theme", newTheme);
+      localStorage.setItem("theme", newTheme);
+
+      const themeIcon = document.getElementById("themeIcon");
+      const themeText = document.getElementById("themeText");
+
+      if (newTheme === "dark") {
+        themeIcon.innerHTML = `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>`;
+        themeText.textContent = "Dark";
+      } else {
+        themeIcon.innerHTML = `
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        `;
+        themeText.textContent = "Light";
+      }
+    }
+
+    function initTheme() {
+      const savedTheme = localStorage.getItem("theme") || "light";
+      const html = document.documentElement;
+      const themeIcon = document.getElementById("themeIcon");
+      const themeText = document.getElementById("themeText");
+
+      html.setAttribute("data-theme", savedTheme);
+
+      if (savedTheme === "dark") {
+        themeIcon.innerHTML = `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>`;
+        themeText.textContent = "Dark";
+      }
+    }
+
+    // ==================== INSTALLMENT PLANS FUNCTIONALITY ====================
+
+    // Platforms hidden from all results. To bring Paymob back, remove it from this list.
+    const HIDDEN_PLATFORMS = ["Paymob"];
+
+    // Brand colors & identities — keys are matched as substrings against bankAccount names
+    const BRAND_CONFIG = {
+      // ── BNPL ──────────────────────────────────────────────────────────────────
+      "Souhoola": { img: "bnpl/souhoola.webp" },
+      "Valu": { img: "bnpl/valu.webp" },
+      "Forsa": { img: "bnpl/Forsa.webp" },
+      "Aman": { img: "bnpl/aman.webp" },
+      "Tru": { img: "bnpl/Tru.webp" },
+      "Mogo": { img: "bnpl/mogo.webp" },
+      "Contact": { img: "bnpl/contact.webp" },
+      // ── Paymob-only BNPL — hidden while Paymob is hidden; uncomment to restore ──
+      // "Sympl": { img: "bnpl/sympl.webp" },
+      // "Seven": { img: "bnpl/Seven.webp" },
+      // "Halan": { img: "bnpl/halan.webp" },
+      // "Khazna": { img: "bnpl/Khazna.webp" },
+      // "Premium": { img: "bnpl/premuim.webp" },
+      // ── Banks ─────────────────────────────────────────────────────────────────
+      "ADIB": { img: "bank/adib.webp" },
+      "NBE": { img: "bank/nbe.webp" },
+      "Misr": { img: "bank/misr.webp" },
+      "NBK": { img: "bank/nbk.webp" },
+      "FAB": { img: "bank/fab-misr.webp" },
+      "National Bank of Dubai- NBD": { img: "bank/nbd.webp" },
+      "Mashreq": { img: "bank/mashreq.webp" },
+      "BANK NEXT": { img: "bank/BANK-NXT.webp" },
+      "Attijariwafa": { img: "bank/attijariwafa.webp" },
+      "SAIB": { img: "bank/saib.webp" },
+      "HSBC": { img: "bank/HSBC.webp" },
+      "KFH": { img: "bank/kfh.webp" },
+      "Baraka": { img: "bank/Baraka.webp" },
+      // ── Paymob-only banks — hidden while Paymob is hidden; uncomment to restore ──
+      // "CIB": { img: "bank/cib.webp" },
+      // "Ahli": { img: "bank/Ahli.webp" },
+      // "Caire": { img: "bank/Caire.webp" },
+      // "QNB": { img: "bank/qnb.webp" },
+    };
+
+    function getBrandConfig(name) {
+      if (BRAND_CONFIG[name]) return BRAND_CONFIG[name];
+      for (const [key, cfg] of Object.entries(BRAND_CONFIG)) {
+        if (name.includes(key) || key.includes(name)) return cfg;
+      }
+      return {};
+    }
+
+    function formatInstallmentInput(el) {
+      const raw = el.value.replace(/[^0-9]/g, "");
+      el.value = raw ? parseInt(raw, 10).toLocaleString("en-US") : "";
+      calculateInstallments();
+    }
+
+    const INSTALLMENT_SHEET_ID = "1diLfTHgQAiruCK100OrQRFg7JvJZU4BS";
+    let installmentPlansRawData = [];
+    let currentBankAccount = "";
+    let currentDuration = "";
+    let currentInstallmentType = "banks";
+
+    async function loadInstallmentData() {
+      const statusEl = document.getElementById("installmentDataStatus");
+
+      if (statusEl) {
+        statusEl.innerHTML = `
+          <div style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); font-size: 0.875rem;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation: spin 1s linear infinite;">
+              <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path>
+            </svg>
+            Loading installment plans...
+          </div>`;
+      }
+
+      try {
+        const url = `https://docs.google.com/spreadsheets/d/${INSTALLMENT_SHEET_ID}/export?format=csv`;
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const csvText = await response.text();
+        const rows = parseCSV(csvText);
+
+        if (rows.length < 2) throw new Error("Sheet is empty or has no data rows");
+
+        const headers = rows[0].map((h) => h.trim().toLowerCase());
+        const requiredCols = ["platform", "bank account", "duration", "interest rate", "admin fees", "type"];
+        const colMap = {};
+        for (const col of requiredCols) {
+          const idx = headers.indexOf(col);
+          if (idx === -1) throw new Error(`Missing column: "${col}"`);
+          colMap[col] = idx;
+        }
+
+        const data = [];
+        for (let i = 1; i < rows.length; i++) {
+          const row = rows[i];
+          const platform = (row[colMap["platform"]] || "").trim();
+          const bankAccount = (row[colMap["bank account"]] || "").trim();
+          const type = (row[colMap["type"]] || "").trim().toLowerCase();
+          const durationRaw = (row[colMap["duration"]] || "").toString().replace(/[^0-9.-]/g, "");
+          const duration = parseInt(durationRaw, 10);
+          let interestRate = parseFloat((row[colMap["interest rate"]] || "").toString().replace(/[%,]/g, ""));
+          let adminFees = parseFloat((row[colMap["admin fees"]] || "").toString().replace(/[%,]/g, ""));
+          if (isNaN(interestRate)) interestRate = 0;
+          if (isNaN(adminFees)) adminFees = 0;
+          if (interestRate > 1) interestRate = interestRate / 100;
+          if (adminFees > 1) adminFees = adminFees / 100;
+
+          if (!platform || !bankAccount || isNaN(duration) || duration <= 0) continue;
+          // Skip hidden platforms (e.g. Paymob) — see HIDDEN_PLATFORMS
+          if (HIDDEN_PLATFORMS.some((p) => p.toLowerCase() === platform.toLowerCase())) continue;
+
+          data.push({ platform, bankAccount, duration, interestRate, adminFees, type });
+        }
+
+        if (data.length === 0) throw new Error("No valid data rows found");
+
+        installmentPlansRawData = data;
+        renderInstallmentCarousel();
+        populateDurationDropdown();
+        if (statusEl) statusEl.innerHTML = "";
+      } catch (err) {
+        if (statusEl) {
+          statusEl.innerHTML = `
+            <div style="padding: 0.75rem 1rem; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--card-bg);">
+              <p style="color: var(--danger, #e53e3e); font-size: 0.875rem; margin-bottom: 0.5rem;">Failed to load installment data: ${err.message}</p>
+              <button onclick="loadInstallmentData()"
+                style="padding: 0.4rem 1rem; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--card-bg); color: var(--text-primary); cursor: pointer; font-size: 0.8rem;">
+                Retry
+              </button>
+            </div>`;
+        }
+      }
+    }
+
+    function renderInstallmentCarousel() {
+      const carousel = document.getElementById("installmentCompanyCarousel");
+      if (!carousel) return;
+
+      // Filter out plans with interest rate greater than 18.5% and keep only 12-month plans
+      const validPlans = installmentPlansRawData.filter((r) => r.interestRate <= 0.185 && r.duration === 12);
+
+      const allNames = [...new Set(validPlans.map((r) => r.bankAccount))];
+
+      const typeMap = new Map();
+      validPlans.forEach(r => { if (!typeMap.has(r.bankAccount)) typeMap.set(r.bankAccount, r.type); });
+
+      const banks = allNames.filter(n => typeMap.get(n) === "bank");
+      const bnpls = allNames.filter(n => typeMap.get(n) === "bnpl");
+      console.log("Brand image coverage:", {
+        Banks: Object.fromEntries(banks.map(n => [n, !!getBrandConfig(n).img])),
+        BNPL: Object.fromEntries(bnpls.map(n => [n, !!getBrandConfig(n).img])),
+      });
+
+      const filtered = allNames.filter((name) => {
+        const t = typeMap.get(name);
+        if (!currentInstallmentType) return true;
+        return currentInstallmentType === "bnpl" ? t === "bnpl" : t === "bank";
+      });
+
+      const names = filtered.length > 0 ? filtered : allNames;
+
+      carousel.innerHTML = names
+        .map((name) => {
+          const isActive = name === currentBankAccount;
+          const brand = getBrandConfig(name);
+          const esc = name.replace(/'/g, "\\'");
+          const border = isActive ? "#DC2626" : "var(--border)";
+          const shadow = isActive
+            ? "0 0 0 3px rgba(220,38,38,0.2), var(--shadow-sm)"
+            : "var(--shadow-sm)";
+          const nameBg = isActive ? "rgba(220,38,38,0.08)" : "transparent";
+          const nameColor = isActive ? "#DC2626" : "var(--text-primary)";
+          const nameWeight = isActive ? "700" : "600";
+          return `<div
+            onclick="selectInstallmentCompany('${esc}')"
+            style="border:2px solid ${border};border-radius:var(--radius-sm);background:var(--card-bg);cursor:pointer;overflow:hidden;box-shadow:${shadow};transition:var(--transition);"
+            onmouseover="if(this.dataset.active!=='1'){this.style.borderColor='#DC2626';this.style.boxShadow='0 0 0 2px rgba(220,38,38,0.13),var(--shadow-sm)';}"
+            onmouseout="if(this.dataset.active!=='1'){this.style.borderColor='var(--border)';this.style.boxShadow='var(--shadow-sm)';}"
+            data-active="${isActive ? "1" : "0"}"
+          ><div style="background:var(--card-bg);padding:0.5rem 0.25rem;display:flex;align-items:center;justify-content:center;min-height:44px;">
+            ${brand.img
+              ? `<img src="${brand.img}" alt="${name}" style="width:80px;height:40px;object-fit:contain;">`
+              : `<span style="font-weight:800;font-size:0.9375rem;letter-spacing:0.5px;color:var(--text-primary);">${name.slice(0, 4).toUpperCase()}</span>`}
+          </div>
+          <div style="padding:0.375rem 0.5rem;font-size:0.6875rem;font-weight:${nameWeight};text-align:center;color:${nameColor};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:${nameBg};transition:var(--transition);">${name}</div>
+          </div>`;
+        })
+        .join("");
+    }
+
+    function selectInstallmentCompany(name) {
+      currentBankAccount = name;
+      currentDuration = "";
+      renderInstallmentCarousel();
+      populateDurationDropdown();
+      calculateInstallments();
+    }
+
+    function scrollInstallmentCarousel(direction) {
+      const carousel = document.getElementById("installmentCompanyCarousel");
+      if (carousel) carousel.scrollBy({ left: direction * 150, behavior: "smooth" });
+    }
+
+    function clearInstallmentFields() {
+      const priceEl = document.getElementById("installmentPrice");
+      const dpEl = document.getElementById("installmentDownpayment");
+      if (priceEl) priceEl.value = "1";
+      if (dpEl) dpEl.value = "";
+
+      currentInstallmentType = "banks";
+      currentBankAccount = "";
+      currentDuration = "";
+      const durationEl = document.getElementById("installmentDuration");
+      if (durationEl) durationEl.value = "";
+
+      renderInstallmentCarousel();
+      populateDurationDropdown();
+      const tableContainer = document.getElementById("installmentPlansTable");
+      if (tableContainer) tableContainer.innerHTML = "";
+    }
+
+    function populateDurationDropdown() {
+      const select = document.getElementById("installmentDuration");
+      if (!select) return;
+
+      let sourcePlans = installmentPlansRawData;
+      // Filter out plans with interest rate greater than 15%
+      sourcePlans = sourcePlans.filter((r) => r.interestRate <= 0.185);
+
+      if (currentBankAccount) {
+        sourcePlans = sourcePlans.filter((r) => r.bankAccount === currentBankAccount);
+      } else if (currentInstallmentType) {
+        sourcePlans = sourcePlans.filter((r) =>
+          currentInstallmentType === "bnpl" ? r.type === "bnpl" : r.type === "bank"
+        );
+      }
+
+      const durations = [...new Set(sourcePlans.map((r) => r.duration))]
+        .filter((d) => d === 12)
+        .sort((a, b) => a - b);
+
+      select.innerHTML = '<option value="">-- All Durations --</option>' +
+        durations.map((d) => `<option value="${d}">${d} Months</option>`).join("");
+
+      if (currentDuration && durations.includes(parseInt(currentDuration, 10))) {
+        select.value = currentDuration;
+      } else {
+        currentDuration = "";
+        select.value = "";
+      }
+    }
+
+    function onInstallmentDurationChange() {
+      const select = document.getElementById("installmentDuration");
+      currentDuration = select ? select.value : "";
+      calculateInstallments();
+    }
+
+    function getFilteredPlans(bankAccount, durationFilter, price) {
+      let filtered = [...installmentPlansRawData];
+
+      // Filter out plans with interest rate greater than 18.5% and keep only 12-month plans
+      filtered = filtered.filter((r) => r.interestRate <= 0.185 && r.duration === 12);
+
+      if (bankAccount) {
+        filtered = filtered.filter((r) => r.bankAccount === bankAccount);
+      } else if (currentInstallmentType) {
+        filtered = filtered.filter((r) =>
+          currentInstallmentType === "bnpl" ? r.type === "bnpl" : r.type === "bank"
+        );
+      }
+
+      if (durationFilter) {
+        const dur = parseInt(durationFilter, 10);
+        filtered = filtered.filter((r) => r.duration === dur);
+      }
+
+      filtered.sort((a, b) => a.interestRate - b.interestRate || a.adminFees - b.adminFees || a.duration - b.duration);
+
+      return filtered.map((row) => {
+        const m = row.duration;
+        const combinedRate = row.interestRate + row.adminFees;
+        const total = Math.round(price);
+        const monthly = m > 0 ? Math.round(total / m) : 0;
+        const fees = 0;
+        const adminFees2 = price > 0
+          ? parseFloat(((price / (1 - combinedRate) - price * (1 + combinedRate)) / price * 100).toFixed(2))
+          : 0;
+        return {
+          platform: row.platform,
+          bankAccount: row.bankAccount,
+          months: m,
+          monthly,
+          fees,
+          total,
+          interestPct: parseFloat((row.interestRate * 100).toFixed(2)),
+          adminPct: parseFloat((row.adminFees * 100).toFixed(2)),
+          adminFees2,
+        };
+      });
+    }
+
+    function calculateInstallments() {
+      const tableContainer = document.getElementById("installmentPlansTable");
+      if (!tableContainer) return;
+
+      if (!currentBankAccount && !currentDuration) {
+        tableContainer.innerHTML = `
+          <p style="color: var(--text-secondary); font-size: 0.875rem; padding: 1rem; text-align: center; border: 1px solid var(--border); border-radius: var(--radius-sm);">
+            Select a bank account or duration above to see installment plans
+          </p>`;
+        return;
+      }
+
+      const priceInput = document.getElementById("installmentPrice");
+      const downpaymentInput = document.getElementById("installmentDownpayment");
+      const fullPrice = parseFloat(priceInput?.value.replace(/,/g, "")) || 0;
+      const downpayment = parseFloat(downpaymentInput?.value.replace(/,/g, "")) || 0;
+      const price = Math.max(0, fullPrice - downpayment);
+
+      const heading = currentBankAccount
+        ? `Plans (<span style="color:#DC2626;text-decoration:underline;text-underline-offset:4px;">${currentBankAccount}</span>${currentDuration ? ` — ${currentDuration} Months` : ""})`
+        : `Best Plans (${currentDuration} Months)`;
+
+      if (price <= 0) {
+        tableContainer.innerHTML = `
+          <h3 style="font-size: 1rem; font-weight: 700; margin-bottom: 0.75rem;">${heading}</h3>
+          <p style="color: var(--text-secondary); font-size: 0.875rem; padding: 1rem; text-align: center; border: 1px solid var(--border); border-radius: var(--radius-sm);">
+            Enter a product price above to see installment plans
+          </p>`;
+        return;
+      }
+
+      const plans = getFilteredPlans(currentBankAccount, currentDuration, price);
+
+      if (plans.length === 0) {
+        tableContainer.innerHTML = `
+          <h3 style="font-size: 1rem; font-weight: 700; margin-bottom: 0.75rem;">${heading}</h3>
+          <p style="color: var(--text-secondary); font-size: 0.875rem; padding: 1rem; text-align: center; border: 1px solid var(--border); border-radius: var(--radius-sm);">
+            No installment plans found for this selection
+          </p>`;
+        return;
+      }
+
+      const showBankCol = !currentBankAccount;
+
+      const recommendedIdxByMonths = {};
+      plans.forEach((p, i) => {
+        if (!(p.months in recommendedIdxByMonths)) {
+          recommendedIdxByMonths[p.months] = i;
+        }
+      });
+
+      const rows = plans
+        .map(
+          (p, i) => {
+            const isRecommended = recommendedIdxByMonths[p.months] === i;
+            return `
+          <tr>
+            ${showBankCol ? `<td><strong>${p.bankAccount}</strong></td>` : ""}
+            <td><strong>${p.platform}</strong></td>
+            <td style="white-space: nowrap;"><strong>${p.months}</strong> Months</td>
+            <td>${p.monthly.toLocaleString()} EGP</td>
+            <td style="white-space: nowrap;">
+              <div>${p.interestPct}% Interest</div>
+              <div>${p.adminPct}% Admin Fees</div>
+              <div style="color: #3b82f6;">Admin Fees :  ${p.adminFees2 + p.adminPct}%</div>
+            </td>
+            <td class="installment-total-highlight">${p.total.toLocaleString()} EGP</td>
+            <td style="text-align: center;">${isRecommended ? `<span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:#10b981;color:white;font-size:14px;font-weight:700;line-height:1;">✓</span>` : ""}</td>
+          </tr>`;
+          },
+        )
+        .join("");
+
+      tableContainer.innerHTML = `
+        <h3 style="font-size: 1rem; font-weight: 700; margin-bottom: 0.75rem;">${heading}</h3>
+        <table class="installment-table">
+          <thead>
+            <tr>
+              ${showBankCol ? "<th>Bank Account</th>" : ""}
+              <th>Platform</th>
+              <th>Months</th>
+              <th>Monthly</th>
+              <th>Fees</th>
+              <th>Total</th>
+              <th style="text-align: center;">Recommended</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rows}
+          </tbody>
+        </table>`;
+    }
+
+    function initInstallmentPlans() {
+      loadInstallmentData();
+    }
+
+    // Initialize on page load
+    document.addEventListener("DOMContentLoaded", function () {
+      initTheme();
+      initInstallmentPlans();
+    });
+  </script>
+</body>
+
+</html>
