@@ -813,9 +813,11 @@
         const carousel = document.getElementById("installmentCompanyCarousel");
         if (!carousel) return;
 
-        // Filter out plans with interest rate greater than 18.5% and keep only 12-month plans
+        // Filter out plans with interest rate greater than 18.5% and keep only 6- and 12-month plans
         const validPlans = installmentPlansRawData.filter(
-          (r) => r.interestRate <= 0.185 && r.duration === 12,
+          (r) =>
+            r.interestRate <= 0.185 &&
+            (r.duration === 12 || r.duration === 6),
         );
 
         const allNames = [...new Set(validPlans.map((r) => r.bankAccount))];
@@ -939,7 +941,7 @@
         }
 
         const durations = [...new Set(sourcePlans.map((r) => r.duration))]
-          .filter((d) => d === 12)
+          .filter((d) => d === 12 || d === 6)
           .sort((a, b) => a - b);
 
         select.innerHTML =
@@ -968,9 +970,11 @@
       function getFilteredPlans(bankAccount, durationFilter, price) {
         let filtered = [...installmentPlansRawData];
 
-        // Filter out plans with interest rate greater than 18.5% and keep only 12-month plans
+        // Filter out plans with interest rate greater than 18.5% and keep only 6- and 12-month plans
         filtered = filtered.filter(
-          (r) => r.interestRate <= 0.185 && r.duration === 12,
+          (r) =>
+            r.interestRate <= 0.185 &&
+            (r.duration === 12 || r.duration === 6),
         );
 
         if (bankAccount) {
