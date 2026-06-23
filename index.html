@@ -813,10 +813,10 @@
         const carousel = document.getElementById("installmentCompanyCarousel");
         if (!carousel) return;
 
-        // Filter out plans with interest rate greater than 18.5% and keep only 6- and 12-month plans
+        // Filter out plans whose interest rate + admin fees exceed 18.5%, and keep only 6- and 12-month plans
         const validPlans = installmentPlansRawData.filter(
           (r) =>
-            r.interestRate <= 0.185 &&
+            r.interestRate + r.adminFees <= 0.185 &&
             (r.duration === 12 || r.duration === 6),
         );
 
